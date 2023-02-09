@@ -1,7 +1,10 @@
 import json
+import sys
 
 import requests
+# noinspection PyPackageRequirements
 import discord
+# noinspection PyPackageRequirements
 from discord.ext import tasks
 from datetime import datetime
 from datetime import timedelta
@@ -69,6 +72,12 @@ def get_ads():
 
 
 if __name__ == '__main__':
+
+    version = sys.version_info
+    if version.major != 3 or version.minor != 9:
+        print('Python version 3.9 (exactly) is required')
+        sys.exit()
+
     intents = discord.Intents.default()
     intents.message_content = True
     client = discord.Client(intents=intents)
