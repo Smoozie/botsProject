@@ -1,3 +1,4 @@
+import asyncio
 import sys
 import requests
 import signal
@@ -57,6 +58,10 @@ if __name__ == '__main__':
     async def on_ready():
         print(f"{bot.user} is now online")
 
+    async def cleanup():
+        await bot.close()
+        sys.exit()
+
     @bot.command(name="mat")
     async def food(ctx):
         response = get_week()
@@ -65,10 +70,9 @@ if __name__ == '__main__':
     @bot.command(name='stopFoody')
     @commands.is_owner()
     async def stop(ctx):
-        await bot.close()
-        sys.exit()
+        await cleanup()
 
-
-    signal.signal(signalnum=signal.SIGTERM, handler=stop)
+    loop = asyncio.get_event_loop()
+    loop.add_signal_handler(signal.SIGTERM, lambda: asyncio.create_task(cleanup()))
     token = "MTA2MjgyNjY1OTE1OTQ3ODMzMw.GZN-AV.MpWuOkuqVjcg5n3-Z0Gb-jsgXoO5bjDfYdP6Uo"
     bot.run(token)
