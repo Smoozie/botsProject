@@ -63,7 +63,7 @@ if __name__ == '__main__':
 
     @bot.command(name='stopFoody')
     @commands.is_owner()
-    async def stop():
+    async def stop(ctx):
         await bot.close()
         sys.exit()
 
