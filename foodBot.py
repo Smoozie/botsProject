@@ -61,9 +61,9 @@ if __name__ == '__main__':
         response = get_week()
         await ctx.send(response)
 
-    @bot.command(name='stop')
+    @bot.command(name='stopFoody')
     @commands.is_owner()
-    async def stop(ctx):
+    async def stop():
         await bot.close()
         sys.exit()
 

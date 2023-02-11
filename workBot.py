@@ -6,6 +6,7 @@ import requests
 import discord
 # noinspection PyPackageRequirements
 from discord.ext import tasks
+from discord.ext import commands
 from datetime import datetime
 from datetime import timedelta
 
@@ -80,11 +81,16 @@ if __name__ == '__main__':
 
     intents = discord.Intents.default()
     intents.message_content = True
-    client = discord.Client(intents=intents)
+    bot = commands.Bot(intents=intents, command_prefix='!')
+
+    @bot.event
+    async def on_ready():
+        print("Worky is starting")
+        scheduled_loop.start()
 
     @tasks.loop(hours=24)
     async def scheduled_loop():
-        all_channels = list(client.get_all_channels())
+        all_channels = list(bot.get_all_channels())
         af_channel = discord.utils.get(all_channels, name='platsbanken-it-spåret')
 
         for ad in get_ads():
@@ -93,10 +99,5 @@ if __name__ == '__main__':
             msg = f'**{desc}**\n<{link}>'
             await af_channel.send(msg)
 
-    @client.event
-    async def on_ready():
-        print("Worky is starting")
-        scheduled_loop.start()
-
     token = 'MTA2NjMxMjA4NzE2NjUyNTQ4MQ.G2ZPYd.L2LeOuEwHFxYv8c8O3DM_UwoC3U6tc61-cwFqk'
-    client.run(token=token)
+    bot.run(token=token)
