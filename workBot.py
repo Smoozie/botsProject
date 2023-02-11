@@ -1,12 +1,12 @@
 import json
 import sys
+import signal
 
 import requests
 # noinspection PyPackageRequirements
 import discord
 # noinspection PyPackageRequirements
-from discord.ext import tasks
-from discord.ext import commands
+from discord.ext import tasks, commands
 from datetime import datetime
 from datetime import timedelta
 
@@ -83,6 +83,7 @@ if __name__ == '__main__':
     intents.message_content = True
     bot = commands.Bot(intents=intents, command_prefix='!')
 
+
     @bot.event
     async def on_ready():
         print("Worky is starting")
@@ -106,5 +107,6 @@ if __name__ == '__main__':
         await bot.close()
         sys.exit()
 
+    signal.signal(signalnum=signal.SIGTERM, handler=stop)
     token = 'MTA2NjMxMjA4NzE2NjUyNTQ4MQ.G2ZPYd.L2LeOuEwHFxYv8c8O3DM_UwoC3U6tc61-cwFqk'
     bot.run(token=token)

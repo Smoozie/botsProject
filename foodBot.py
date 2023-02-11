@@ -1,5 +1,6 @@
 import sys
 import requests
+import signal
 # noinspection PyPackageRequirements
 import discord
 # noinspection PyPackageRequirements
@@ -67,5 +68,7 @@ if __name__ == '__main__':
         await bot.close()
         sys.exit()
 
+
+    signal.signal(signalnum=signal.SIGTERM, handler=stop)
     token = "MTA2MjgyNjY1OTE1OTQ3ODMzMw.GZN-AV.MpWuOkuqVjcg5n3-Z0Gb-jsgXoO5bjDfYdP6Uo"
     bot.run(token)
