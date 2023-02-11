@@ -99,5 +99,12 @@ if __name__ == '__main__':
             msg = f'**{desc}**\n<{link}>'
             await af_channel.send(msg)
 
+
+    @bot.command(name='stopWorky')
+    @commands.is_owner()
+    async def stop(ctx):
+        await bot.close()
+        sys.exit()
+
     token = 'MTA2NjMxMjA4NzE2NjUyNTQ4MQ.G2ZPYd.L2LeOuEwHFxYv8c8O3DM_UwoC3U6tc61-cwFqk'
     bot.run(token=token)
