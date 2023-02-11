@@ -61,5 +61,11 @@ if __name__ == '__main__':
         response = get_week()
         await ctx.send(response)
 
+    @bot.command(name='stop')
+    @commands.is_owner()
+    async def stop(ctx):
+        await bot.close()
+        sys.exit()
+
     token = "MTA2MjgyNjY1OTE1OTQ3ODMzMw.GZN-AV.MpWuOkuqVjcg5n3-Z0Gb-jsgXoO5bjDfYdP6Uo"
     bot.run(token)
