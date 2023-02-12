@@ -1,7 +1,5 @@
-import asyncio
 import sys
 import requests
-import signal
 # noinspection PyPackageRequirements
 import discord
 # noinspection PyPackageRequirements
@@ -72,7 +70,5 @@ if __name__ == '__main__':
     async def stop(ctx):
         await cleanup()
 
-    loop = asyncio.get_event_loop()
-    loop.add_signal_handler(signal.SIGTERM, lambda: asyncio.create_task(cleanup()))
     token = "MTA2MjgyNjY1OTE1OTQ3ODMzMw.GZN-AV.MpWuOkuqVjcg5n3-Z0Gb-jsgXoO5bjDfYdP6Uo"
     bot.run(token)

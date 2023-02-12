@@ -1,6 +1,5 @@
 import json
 import sys
-import signal
 
 import requests
 # noinspection PyPackageRequirements
@@ -107,6 +106,5 @@ if __name__ == '__main__':
         await bot.close()
         sys.exit()
 
-    signal.signal(signalnum=signal.SIGTERM, handler=stop)
     token = 'MTA2NjMxMjA4NzE2NjUyNTQ4MQ.G2ZPYd.L2LeOuEwHFxYv8c8O3DM_UwoC3U6tc61-cwFqk'
     bot.run(token=token)
