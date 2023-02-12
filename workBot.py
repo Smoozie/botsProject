@@ -88,7 +88,7 @@ if __name__ == '__main__':
         print("Worky is starting")
         scheduled_loop.start()
 
-    @tasks.loop(hours=24)
+    @tasks.loop(minutes=2)
     async def scheduled_loop():
         all_channels = list(bot.get_all_channels())
         af_channel = discord.utils.get(all_channels, name='platsbanken-it-spåret')
