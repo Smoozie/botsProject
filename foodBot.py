@@ -61,13 +61,13 @@ if __name__ == '__main__':
         sys.exit()
 
     @bot.command(name="mat")
-    async def food(ctx):
+    async def food(ctx: commands.Context):
         response = get_week()
         await ctx.send(response)
 
     @bot.command(name='stopFoody')
     @commands.is_owner()
-    async def stop(ctx):
+    async def stop(_ctx):
         await cleanup()
 
     token = "MTA2MjgyNjY1OTE1OTQ3ODMzMw.GZN-AV.MpWuOkuqVjcg5n3-Z0Gb-jsgXoO5bjDfYdP6Uo"

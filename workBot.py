@@ -1,4 +1,6 @@
+import asyncio
 import json
+import signal
 import sys
 
 import requests
@@ -82,22 +84,23 @@ if __name__ == '__main__':
     intents.message_content = True
     bot = commands.Bot(intents=intents, command_prefix='!')
 
+    async def cleanup():
+        await bot.close()
+        sys.exit()
 
     @bot.event
     async def on_ready():
         print("Worky is starting")
+        if sys.platform == 'linux':
+            bot.loop.add_signal_handler(signal.SIGTERM, lambda: asyncio.create_task(cleanup()))
         scheduled_loop.start()
 
-    @tasks.loop(minutes=1)
+    @tasks.loop(hours=24)
     async def scheduled_loop():
         all_channels = list(bot.get_all_channels())
         af_channel = discord.utils.get(all_channels, name='platsbanken-it-spåret')
 
-        await af_channel.send('Dagens arbetsannonser:')
-
         all_ads = get_ads()
-
-        await af_channel.send(str(len(all_ads)))
 
         for ad in all_ads:
             desc = ad['headline']
@@ -105,12 +108,10 @@ if __name__ == '__main__':
             msg = f'**{desc}**\n<{link}>'
             await af_channel.send(msg)
 
-
     @bot.command(name='stopWorky')
     @commands.is_owner()
-    async def stop(ctx):
-        await bot.close()
-        sys.exit()
+    async def stop(_ctx):
+        await cleanup()
 
     token = 'MTA2NjMxMjA4NzE2NjUyNTQ4MQ.G2ZPYd.L2LeOuEwHFxYv8c8O3DM_UwoC3U6tc61-cwFqk'
     bot.run(token=token)
