@@ -1,4 +1,7 @@
 import sys
+import signal
+import asyncio
+
 import requests
 # noinspection PyPackageRequirements
 import discord
@@ -55,6 +58,8 @@ if __name__ == '__main__':
     @bot.event
     async def on_ready():
         print(f"{bot.user} is now online")
+        if sys.platform == 'linux':
+            bot.loop.add_signal_handler(signal.SIGTERM, lambda: asyncio.create_task(cleanup()))
 
     async def cleanup():
         await bot.close()
