@@ -1,7 +1,9 @@
 import sys
 import signal
 import asyncio
+import os
 
+from dotenv import load_dotenv
 import requests
 # noinspection PyPackageRequirements
 import discord
@@ -45,6 +47,9 @@ def get_week():
 
 if __name__ == '__main__':
 
+    load_dotenv()
+    TOKEN = os.getenv('WORKY_TOKEN')
+
     version = sys.version_info
     if version.major != 3 or version.minor != 9:
         print('Python version 3.9 (exactly) is required')
@@ -75,5 +80,4 @@ if __name__ == '__main__':
     async def stop(_ctx):
         await cleanup()
 
-    token = "MTA2MjgyNjY1OTE1OTQ3ODMzMw.GZN-AV.MpWuOkuqVjcg5n3-Z0Gb-jsgXoO5bjDfYdP6Uo"
-    bot.run(token)
+    bot.run(token=TOKEN)

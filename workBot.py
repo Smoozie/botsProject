@@ -2,6 +2,8 @@ import asyncio
 import json
 import signal
 import sys
+import os
+from dotenv import load_dotenv
 
 import requests
 # noinspection PyPackageRequirements
@@ -75,6 +77,9 @@ def get_ads():
 
 if __name__ == '__main__':
 
+    load_dotenv()
+    TOKEN = os.getenv('WORKY_TOKEN')
+
     version = sys.version_info
     if version.major != 3 or version.minor != 9:
         print('Python version 3.9 (exactly) is required')
@@ -113,5 +118,4 @@ if __name__ == '__main__':
     async def stop(_ctx):
         await cleanup()
 
-    token = 'MTA2NjMxMjA4NzE2NjUyNTQ4MQ.G2ZPYd.L2LeOuEwHFxYv8c8O3DM_UwoC3U6tc61-cwFqk'
-    bot.run(token=token)
+    bot.run(token=TOKEN)
