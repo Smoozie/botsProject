@@ -48,7 +48,7 @@ def get_week():
 if __name__ == '__main__':
 
     load_dotenv()
-    TOKEN = os.getenv('WORKY_TOKEN')
+    TOKEN = os.getenv('FOODY_TOKEN')
 
     version = sys.version_info
     if version.major != 3 or version.minor != 9:
