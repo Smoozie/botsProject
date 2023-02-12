@@ -95,7 +95,11 @@ if __name__ == '__main__':
 
         await af_channel.send('Dagens arbetsannonser:')
 
-        for ad in get_ads():
+        all_ads = get_ads()
+
+        await af_channel.send(str(len(all_ads)))
+
+        for ad in all_ads:
             desc = ad['headline']
             link = ad['webpage_url']
             msg = f'**{desc}**\n<{link}>'
