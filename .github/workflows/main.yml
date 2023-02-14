@@ -12,7 +12,7 @@ jobs:
           SSH_KEY: ${{ secrets.SSH_KEY }}
       
       - name: SSH into server and execute deployment script
-        run: ssh -i ssh.key -o StrictHostKeyChecking=no opc@"$OCI_IP" "cd botsProject && ./update.sh && sleep 10 && echo "" "
+        run: ssh -i ssh.key -o StrictHostKeyChecking=no opc@"$OCI_IP" "cd botsProject && ./update.sh && sleep 10 && echo "exit" && exit "
         env:
           OCI_IP: ${{ secrets.OCI_IP }}
       
