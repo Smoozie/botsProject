@@ -1,0 +1,18 @@
+name: ssh-and-deploy
+on: [push, workflow_dispatch]
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up SSH
+        run: |
+          echo "$SSH_KEY" > ssh.key
+          chmod 600 ssh.key
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+      
+      - name: SSH into server and execute deployment script
+        run: ssh -i ssh.key -o StrictHostKeyChecking=no opc@"$OCI_IP" "cd botsProject && ./update.sh"
+        env:
+          OCI_IP: ${{ secrets.OCI_IP }}
+      
