@@ -12,7 +12,7 @@ jobs:
           SSH_KEY: ${{ secrets.GCP_SSH_KEY }}
       
       - name: SSH into server and execute deployment script
-        run: ssh -i -o StrictHostKeyChecking=no ssh.key joha_rasmus@"$GCP_IP" "cd botsProject && ./update.sh"
+        run: ssh -o StrictHostKeyChecking=no -i ssh.key joha_rasmus@"$GCP_IP" "cd botsProject && ./update.sh"
         env:
           GCP_IP: ${{ secrets.GCP_IP }}
       
