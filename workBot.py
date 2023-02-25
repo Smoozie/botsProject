@@ -66,7 +66,7 @@ def fetch_stream(timestamp: datetime):
 
 
 def get_ads():
-    start_of_day = datetime.now().replace(hour=0, minute=0, second=0, day=22)
+    start_of_day = datetime.now().replace(hour=0, minute=0, second=0)
     td = timedelta(days=1)
     start_of_yesterday = start_of_day - td
     stream = fetch_stream(start_of_day)
