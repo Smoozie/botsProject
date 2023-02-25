@@ -100,7 +100,7 @@ if __name__ == '__main__':
             bot.loop.add_signal_handler(signal.SIGTERM, lambda: asyncio.create_task(cleanup()))
         scheduled_loop.start()
 
-    @tasks.loop(minutes=1)
+    @tasks.loop(hours=24)
     async def scheduled_loop():
         all_channels = list(bot.get_all_channels())
         af_channel = discord.utils.get(all_channels, name='platsbanken-it-spåret')
