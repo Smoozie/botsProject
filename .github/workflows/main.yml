@@ -9,7 +9,7 @@ jobs:
           echo "$GCP_SSH_KEY" > ssh.key
           chmod 600 ssh.key
         env:
-          SSH_KEY: ${{ secrets.GCP_SSH_KEY }}
+          GCP_SSH_KEY: ${{ secrets.GCP_SSH_KEY }}
       
       - name: SSH into server and execute deployment script
         run: ssh -o StrictHostKeyChecking=no -i ssh.key joha_rasmus@"$GCP_IP" "cd botsProject && ./update.sh"
