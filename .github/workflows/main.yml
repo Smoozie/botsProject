@@ -1,5 +1,5 @@
 name: ssh-and-deploy
-on: [push]
+on: [push, workflow_dispatch]
 jobs:
   main:
     runs-on: ubuntu-latest
