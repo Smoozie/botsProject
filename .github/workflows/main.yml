@@ -6,13 +6,13 @@ jobs:
     steps:
       - name: Set up SSH
         run: |
-          echo "$SSH_KEY" > ssh.key
+          echo "$GCP_SSH_KEY" > ssh.key
           chmod 600 ssh.key
         env:
-          SSH_KEY: ${{ secrets.SSH_KEY }}
+          SSH_KEY: ${{ secrets.GCP_SSH_KEY }}
       
       - name: SSH into server and execute deployment script
-        run: ssh -i ssh.key -o StrictHostKeyChecking=no opc@"$OCI_IP" "cd botsProject && ./update.sh"
+        run: ssh -i ssh.key joha_rasmus@"$GCP_IP" "cd botsProject && ./update.sh"
         env:
-          OCI_IP: ${{ secrets.OCI_IP }}
+          GCP_IP: ${{ secrets.GCP_IP }}
       
