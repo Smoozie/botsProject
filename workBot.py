@@ -81,8 +81,8 @@ if __name__ == '__main__':
     TOKEN = os.getenv('WORKY_TOKEN')
 
     version = sys.version_info
-    if version.major != 3 or version.minor != 9:
-        print('Python version 3.9 (exactly) is required')
+    if version.major != 3 or version.minor != 10:
+        print('Python version 3.10 (exactly) is required')
         sys.exit()
 
     intents = discord.Intents.default()
