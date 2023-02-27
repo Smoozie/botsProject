@@ -99,8 +99,8 @@ if __name__ == '__main__':
 
     @tasks.loop(hours=24)
     async def scheduled_loop():
-        all_channels = list(bot.get_all_channels())
-        af_channel = discord.utils.get(all_channels, name='platsbanken-it-spåret')
+        af_channel_id = 1065372918344843274
+        af_channel = bot.get_channel(af_channel_id)
 
         all_ads = get_ads()
 
