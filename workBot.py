@@ -2,8 +2,6 @@ import asyncio
 import json
 import signal
 import sys
-import os
-from dotenv import load_dotenv
 
 import requests
 # noinspection PyPackageRequirements
@@ -77,8 +75,7 @@ def get_ads():
 
 if __name__ == '__main__':
 
-    load_dotenv()
-    TOKEN = os.getenv('WORKY_TOKEN')
+    TOKEN = "MTA2NjMxMjA4NzE2NjUyNTQ4MQ.GA8xRn.aC29C0-mmuAwdp11EDDKf3KHwtqSy5yqVW4mRU"
 
     version = sys.version_info
     if version.major != 3 or version.minor != 10:

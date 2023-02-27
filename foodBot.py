@@ -1,9 +1,7 @@
 import sys
 import signal
 import asyncio
-import os
 
-from dotenv import load_dotenv
 import requests
 # noinspection PyPackageRequirements
 import discord
@@ -47,8 +45,7 @@ def get_week():
 
 if __name__ == '__main__':
 
-    load_dotenv()
-    TOKEN = os.getenv('FOODY_TOKEN')
+    TOKEN = "MTA2MjgyNjY1OTE1OTQ3ODMzMw.GMmr6E.jnG0gOE3XuXCVQvnuGrXy5TXrES17VwXXGYzec"
 
     version = sys.version_info
     if version.major != 3 or version.minor != 10:
