@@ -7,7 +7,7 @@ on:
 
 jobs:
   main:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Set up SSH
         run: |
@@ -17,7 +17,7 @@ jobs:
           GCP_SSH_KEY: ${{ secrets.GCP_SSH_KEY }}
       
       - name: SSH into server and execute deployment script
-        run: ssh -o StrictHostKeyChecking=no -i ssh.key joha_rasmus@"$GCP_IP" "cd botsProject && ./update.sh"
+        run: cd botsProject && ./update.sh
         env:
           GCP_IP: ${{ secrets.GCP_IP }}
       
