@@ -9,7 +9,7 @@ The bots can be tested locally (with some difficulty, and ONLY ON LINUX), the pr
 
 
 ## How to develop and test the bots
-NOTE: THIS CAN (CURRENTLY) ONLY BE DONE ON LINUX
+NOTE: THE BOTS CAN CURRENTLY ONLY BE TESTED ON LINUX!! You can develop just fine on Windows, but you can't test the bots on a Windows machine.
 
 Firstly, make sure that you have Python 3.10 installed. It is the default version on Ubuntu 22.04 & 22.10, Debian 11, and a few other distros. It is required by this project.
 
@@ -19,8 +19,10 @@ Thirdly, create a new project in PyCharm, by "Get from VCS" in the Welcome windo
 
 Now, from the built-in cosole in PyCharm, run `pip install -r requirements.txt` which installs the dependencies of the bots.
 
+!!!LINUX ONLY PART STARTS HERE!!!
 IMPORTANT STEP: Send the messages !stopWorky and !stopFoody on the Discord server to kill the bots.
 
 Now you can freely test anyone of the bots simply py pushing the "run" (green right triangle) button while in one of the scripts in PyCharm.
+!!!LINUX ONLY PART ENDS HERE!!!
 
 WHEN YOU'RE DONE: Push the changes to GitHub. The changes are automagically deployed to the GCP instance.
