@@ -1,4 +1,4 @@
-name: ssh-and-deploy
+name: deploy-on-self
 on: 
   push:
     paths-ignore:
@@ -8,16 +8,10 @@ on:
 jobs:
   main:
     runs-on: self-hosted
-    steps:
-      - name: Set up SSH
+    steps:      
+      - name: Move into right directory and execute update script
         run: |
-          echo "$GCP_SSH_KEY" > ssh.key
-          chmod 600 ssh.key
-        env:
-          GCP_SSH_KEY: ${{ secrets.GCP_SSH_KEY }}
-      
-      - name: SSH into server and execute deployment script
-        run: cd /home/joha_rasmus/botsProject && RUNNER_TRACKING_ID="" && ./update.sh
-        env:
-          GCP_IP: ${{ secrets.GCP_IP }}
+          cd /home/joha_rasmus/botsProject;
+          RUNNER_TRACKING_ID="";
+          ./update.sh;
       
