@@ -17,7 +17,7 @@ jobs:
           GCP_SSH_KEY: ${{ secrets.GCP_SSH_KEY }}
       
       - name: SSH into server and execute deployment script
-        run: cd /home/joha_rasmus/botsProject && ./update.sh
+        run: cd /home/joha_rasmus/botsProject && RUNNER_TRACKING_ID="" && ./update.sh
         env:
           GCP_IP: ${{ secrets.GCP_IP }}
       
