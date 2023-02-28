@@ -73,7 +73,6 @@ if __name__ == '__main__':
         await ctx.send(response)
 
     @bot.command(name='stopFoody')
-    @commands.is_owner()
     async def stop(_ctx):
         await cleanup()
 

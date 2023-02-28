@@ -111,7 +111,6 @@ if __name__ == '__main__':
             await af_channel.send(msg)
 
     @bot.command(name='stopWorky')
-    @commands.is_owner()
     async def stop(_ctx):
         await cleanup()
 
