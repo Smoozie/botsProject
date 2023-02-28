@@ -10,7 +10,7 @@ The bots can be tested locally (with some difficulty), the process required to d
 
 ## How to develop and test the bots
 
-Firstly, make sure that you have Python 3.10 installed. It is the default version on Ubuntu 22.04 & 22.10, Debian 11, and a few other distros. It is required by this project.
+Firstly, make sure that you have Python 3.10 installed. It is the default version on Ubuntu 22.04 & 22.10, Debian 11, and a few other distros. It can alternatively be downloaded and installed from the [official python website](https://www.python.org/downloads/release/python-31010/).
 
 Secondly, install  PyCharm (for a vastly improved development experience), [install the Community edition here](https://www.jetbrains.com/pycharm/download/).
 
