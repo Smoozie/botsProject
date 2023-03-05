@@ -75,7 +75,7 @@ def get_week_number(week_line: str) -> int:
 
 def get_lunch_menu_raw() -> list[str]:
     response = requests.get(ADELFORS_MATSEDEL_URL)
-    soup = BeautifulSoup(response.content, 'html.parser')
+    soup = BeautifulSoup(markup=response.content, features='html.parser')
     lunch_menu_all_results = soup.find_all(id="Header3")
     lunch_menu_html = merge_results(lunch_menu_all_results)
     lunch_menu_text = [item.text for item in lunch_menu_html]
@@ -121,7 +121,6 @@ if __name__ == '__main__':
 
     @bot.event
     async def on_ready():
-        print(f"{bot.user} is now online")
         if sys.platform == 'linux':
             bot.loop.add_signal_handler(signal.SIGTERM, lambda: asyncio.create_task(cleanup()))
 
