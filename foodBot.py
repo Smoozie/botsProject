@@ -8,13 +8,13 @@ import discord
 # noinspection PyPackageRequirements
 from discord.ext import commands
 from datetime import date
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, ResultSet, Tag, PageElement
 
 TOKEN = "MTA2MjgyNjY1OTE1OTQ3ODMzMw.GMmr6E.jnG0gOE3XuXCVQvnuGrXy5TXrES17VwXXGYzec"
 CURRENT_YEAR = date.today().year
 
 
-def remove_colons(lines):
+def remove_colons(lines: list[str]) -> list[str]:
     days_with_colons = ["Måndag:", "Tisdag:", "Onsdag:", "Torsdag:", "Fredag:"]
 
     for index, line in enumerate(lines):
@@ -25,7 +25,7 @@ def remove_colons(lines):
     return lines
 
 
-def format_days(lines, week_num):
+def format_days(lines: list[str], week_num: int) -> str:
     lines = remove_colons(lines)
 
     days = ["Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag"]
@@ -41,17 +41,18 @@ def format_days(lines, week_num):
     return days
 
 
-def flatten(list_of_lists):
+def flatten(list_of_lists: ResultSet) -> list[PageElement]:
     flat_list = []
 
     for lst in list_of_lists:
+        assert isinstance(lst, Tag)
         for item in lst:
             flat_list.append(item)
 
     return flat_list
 
 
-def get_week_line(all_lines):
+def get_week_line(all_lines: list[str]) -> str:
     for line in all_lines:
         if 'vecka' in line:
             return line
@@ -59,7 +60,7 @@ def get_week_line(all_lines):
     raise ValueError
 
 
-def get_week():
+def get_week() -> str:
     response = requests.get("https://adelfors.nu/folkhoegskolan/veckans-matsedel/")
     soup = BeautifulSoup(response.content, 'html.parser')
     lunch_menu_all_parts = soup.find_all(id="Header3")
@@ -67,7 +68,7 @@ def get_week():
     lunch_menu = [item.text for item in lunch_menu_flat]
     lunch_menu = [item for item in lunch_menu if item != ""]
     week_line = get_week_line(lunch_menu)
-    week_num = int(''.join(s for s in week_line if s.isdigit()))
+    week_num = int(''.join(c for c in week_line if c.isdigit()))
 
     try:
         first_day_line = lunch_menu.index('Måndag:')
@@ -110,7 +111,7 @@ if __name__ == '__main__':
         await ctx.send(response)
 
     @bot.command(name='stopFoody')
-    async def stop(_ctx):
+    async def stop(_ctx: commands.Context):
         await cleanup()
 
     bot.run(token=TOKEN)
