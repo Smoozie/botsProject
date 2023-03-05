@@ -14,21 +14,28 @@ TOKEN = "MTA2MjgyNjY1OTE1OTQ3ODMzMw.GMmr6E.jnG0gOE3XuXCVQvnuGrXy5TXrES17VwXXGYze
 CURRENT_YEAR = date.today().year
 
 
-def format_days(lines, week_num):
-    whole_days = ["Måndag:", "Tisdag:", "Onsdag:", "Torsdag:", "Fredag:"]
+def remove_colons(lines):
+    days_with_colons = ["Måndag:", "Tisdag:", "Onsdag:", "Torsdag:", "Fredag:"]
 
-    for idx, item in enumerate(lines):
-        if item in whole_days:
-            lines[idx] = item[:-1]
+    for index, line in enumerate(lines):
+        if line in days_with_colons:
+            day_without_colon = line[:-1]
+            lines[index] = day_without_colon
+
+    return lines
+
+
+def format_days(lines, week_num):
+    lines = remove_colons(lines)
 
     days = ["Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag"]
 
-    for idx, item in enumerate(lines):
-        if item in days:
-            which_day = days.index(item) + 1
+    for index, line in enumerate(lines):
+        if line in days:
+            which_day = days.index(line) + 1
             date_of_day = date.fromisocalendar(CURRENT_YEAR, week_num, which_day)
-            new_item = f"**{item} {date_of_day.day}/{date_of_day.month}:**"
-            lines[idx] = new_item
+            new_item = f"**{line} {date_of_day.day}/{date_of_day.month}:**"
+            lines[index] = new_item
 
     days = '\n'.join(lines)
     return days
