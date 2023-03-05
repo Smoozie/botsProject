@@ -12,13 +12,19 @@ from bs4 import BeautifulSoup
 
 
 def format_days(lines, week_num):
-    days = ["Måndag:", "Tisdag:", "Onsdag:", "Torsdag:", "Fredag:"]
+    whole_days = ["Måndag:", "Tisdag:", "Onsdag:", "Torsdag:", "Fredag:"]
+
+    for idx, item in enumerate(lines):
+        if item in whole_days:
+            lines[idx] = item[:-1]
+
+    days = ["Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag"]
 
     for idx, item in enumerate(lines):
         if item in days:
             which_day = days.index(item) + 1
             d = date.fromisocalendar(2023, week_num, which_day)
-            new_item = f"**{item[:-1]} {d.day}/{d.month}:**"
+            new_item = f"**{item} {d.day}/{d.month}:**"
             lines[idx] = new_item
 
     days = '\n'.join(lines)
@@ -34,7 +40,12 @@ def get_week():
     lunch_menu = [item for item in lunch_menu if item != ""]
     week_line = [item for item in lunch_menu if 'vecka' in item][0]
     week_num = int(''.join(s for s in week_line if s.isdigit()))
-    first_day_line = lunch_menu.index('Måndag:')
+    print(lunch_menu)
+    try:
+        first_day_line = lunch_menu.index('Måndag:')
+    except ValueError:
+        first_day_line = lunch_menu.index('Måndag')
+
     lunch_menu = lunch_menu[first_day_line:]
     lunch_menu.insert(0, 'Detta är veckans luncher:')
     lunch_menu.insert(1, '')
