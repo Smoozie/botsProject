@@ -32,8 +32,8 @@ def format_days(lines, week_num):
 
     for index, line in enumerate(lines):
         if line in days:
-            which_day = days.index(line) + 1
-            date_of_day = date.fromisocalendar(CURRENT_YEAR, week_num, which_day)
+            weekday = days.index(line) + 1
+            date_of_day = date.fromisocalendar(CURRENT_YEAR, week_num, weekday)
             new_item = f"**{line} {date_of_day.day}/{date_of_day.month}:**"
             lines[index] = new_item
 
@@ -41,11 +41,21 @@ def format_days(lines, week_num):
     return days
 
 
+def flatten(list_of_lists):
+    flat_list = []
+
+    for lst in list_of_lists:
+        for item in lst:
+            flat_list.append(item)
+
+    return flat_list
+
+
 def get_week():
     resp = requests.get("https://adelfors.nu/folkhoegskolan/veckans-matsedel/")
     soup = BeautifulSoup(resp.content, 'html.parser')
     lunch_menu_all_parts = soup.find_all(id="Header3")
-    lunch_menu_flat = [item for part in lunch_menu_all_parts for item in part]
+    lunch_menu_flat = flatten(lunch_menu_all_parts)
     lunch_menu = [item.text for item in lunch_menu_flat]
     lunch_menu = [item for item in lunch_menu if item != ""]
     week_line = [item for item in lunch_menu if 'vecka' in item][0]
