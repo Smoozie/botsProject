@@ -51,13 +51,22 @@ def flatten(list_of_lists):
     return flat_list
 
 
+def get_week_line(all_lines):
+    for line in all_lines:
+        if 'vecka' in line:
+            return line
+
+    raise ValueError
+
+
 def get_week():
     response = requests.get("https://adelfors.nu/folkhoegskolan/veckans-matsedel/")
     soup = BeautifulSoup(response.content, 'html.parser')
     lunch_menu_all_parts = soup.find_all(id="Header3")
     lunch_menu_flat = flatten(lunch_menu_all_parts)
     lunch_menu = [item.text for item in lunch_menu_flat]
-    week_line = [item for item in lunch_menu if 'vecka' in item][0]
+    lunch_menu = [item for item in lunch_menu if item != ""]
+    week_line = get_week_line(lunch_menu)
     week_num = int(''.join(s for s in week_line if s.isdigit()))
 
     try:
