@@ -42,12 +42,12 @@ def format_days(lines: list[str], week_num: int) -> str:
     return days
 
 
-def flatten(list_of_lists: ResultSet) -> list[PageElement]:
+def merge_results(all_results: ResultSet) -> list[PageElement]:
     flat_list = []
 
-    for lst in list_of_lists:
-        assert isinstance(lst, Tag)
-        for item in lst:
+    for result in all_results:
+        assert isinstance(result, Tag)
+        for item in result:
             flat_list.append(item)
 
     return flat_list
@@ -73,13 +73,18 @@ def get_week_number(week_line: str) -> int:
     return week_number
 
 
-def get_week() -> str:
+def get_lunch_menu_raw() -> list[str]:
     response = requests.get(ADELFORS_MATSEDEL_URL)
     soup = BeautifulSoup(response.content, 'html.parser')
-    lunch_menu_all_parts = soup.find_all(id="Header3")
-    lunch_menu_flat = flatten(lunch_menu_all_parts)
-    lunch_menu = [item.text for item in lunch_menu_flat]
-    lunch_menu = [item for item in lunch_menu if item != ""]
+    lunch_menu_all_results = soup.find_all(id="Header3")
+    lunch_menu_html = merge_results(lunch_menu_all_results)
+    lunch_menu_text = [item.text for item in lunch_menu_html]
+    lunch_menu = [item for item in lunch_menu_text if item != ""]
+    return lunch_menu
+
+
+def get_week() -> str:
+    lunch_menu = get_lunch_menu_raw()
     week_line = get_week_line(lunch_menu)
     week_num = get_week_number(week_line)
 
