@@ -83,21 +83,27 @@ def get_lunch_menu_raw() -> list[str]:
     return lunch_menu
 
 
-def get_week() -> str:
+def format_week_menu(week_menu: list[str]) -> list[str]:
+    try:
+        first_day_line = week_menu.index('Måndag:')
+    except ValueError:
+        first_day_line = week_menu.index('Måndag')
+
+    week_menu = week_menu[first_day_line:]
+    week_menu.insert(0, 'Detta är veckans luncher:')
+    week_menu.insert(1, '')
+
+    return week_menu
+
+
+def get_weekly_lunches() -> str:
     lunch_menu = get_lunch_menu_raw()
     week_line = get_week_line(lunch_menu)
     week_num = get_week_number(week_line)
 
-    try:
-        first_day_line = lunch_menu.index('Måndag:')
-    except ValueError:
-        first_day_line = lunch_menu.index('Måndag')
+    week_menu = format_week_menu(lunch_menu)
 
-    lunch_menu = lunch_menu[first_day_line:]
-    lunch_menu.insert(0, 'Detta är veckans luncher:')
-    lunch_menu.insert(1, '')
-
-    days = format_days(lunch_menu, week_num)
+    days = format_days(week_menu, week_num)
     return days
 
 
@@ -125,7 +131,7 @@ if __name__ == '__main__':
 
     @bot.command(name="mat")
     async def food(ctx: commands.Context):
-        response = get_week()
+        response = get_weekly_lunches()
         await ctx.send(response)
 
     @bot.command(name='stopFoody')
