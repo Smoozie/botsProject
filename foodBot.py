@@ -12,6 +12,7 @@ from bs4 import BeautifulSoup, ResultSet, Tag, PageElement
 
 TOKEN = "MTA2MjgyNjY1OTE1OTQ3ODMzMw.GMmr6E.jnG0gOE3XuXCVQvnuGrXy5TXrES17VwXXGYzec"
 CURRENT_YEAR = date.today().year
+ADELFORS_MATSEDEL_URL = "https://adelfors.nu/folkhoegskolan/veckans-matsedel/"
 
 
 def remove_colons(lines: list[str]) -> list[str]:
@@ -60,15 +61,27 @@ def get_week_line(all_lines: list[str]) -> str:
     raise ValueError
 
 
+def get_week_number(week_line: str) -> int:
+    digits_list = []
+
+    for char in week_line:
+        if char.isdigit():
+            digits_list.append(char)
+
+    week_number_str = ''.join(digits_list)
+    week_number = int(week_number_str)
+    return week_number
+
+
 def get_week() -> str:
-    response = requests.get("https://adelfors.nu/folkhoegskolan/veckans-matsedel/")
+    response = requests.get(ADELFORS_MATSEDEL_URL)
     soup = BeautifulSoup(response.content, 'html.parser')
     lunch_menu_all_parts = soup.find_all(id="Header3")
     lunch_menu_flat = flatten(lunch_menu_all_parts)
     lunch_menu = [item.text for item in lunch_menu_flat]
     lunch_menu = [item for item in lunch_menu if item != ""]
     week_line = get_week_line(lunch_menu)
-    week_num = int(''.join(c for c in week_line if c.isdigit()))
+    week_num = get_week_number(week_line)
 
     try:
         first_day_line = lunch_menu.index('Måndag:')
