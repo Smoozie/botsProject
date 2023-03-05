@@ -10,6 +10,9 @@ from discord.ext import commands
 from datetime import date
 from bs4 import BeautifulSoup
 
+TOKEN = "MTA2MjgyNjY1OTE1OTQ3ODMzMw.GMmr6E.jnG0gOE3XuXCVQvnuGrXy5TXrES17VwXXGYzec"
+CURRENT_YEAR = date.today().year
+
 
 def format_days(lines, week_num):
     whole_days = ["Måndag:", "Tisdag:", "Onsdag:", "Torsdag:", "Fredag:"]
@@ -23,8 +26,8 @@ def format_days(lines, week_num):
     for idx, item in enumerate(lines):
         if item in days:
             which_day = days.index(item) + 1
-            d = date.fromisocalendar(2023, week_num, which_day)
-            new_item = f"**{item} {d.day}/{d.month}:**"
+            date_of_day = date.fromisocalendar(CURRENT_YEAR, week_num, which_day)
+            new_item = f"**{item} {date_of_day.day}/{date_of_day.month}:**"
             lines[idx] = new_item
 
     days = '\n'.join(lines)
@@ -40,7 +43,7 @@ def get_week():
     lunch_menu = [item for item in lunch_menu if item != ""]
     week_line = [item for item in lunch_menu if 'vecka' in item][0]
     week_num = int(''.join(s for s in week_line if s.isdigit()))
-    print(lunch_menu)
+
     try:
         first_day_line = lunch_menu.index('Måndag:')
     except ValueError:
@@ -55,8 +58,6 @@ def get_week():
 
 
 if __name__ == '__main__':
-
-    TOKEN = "MTA2MjgyNjY1OTE1OTQ3ODMzMw.GMmr6E.jnG0gOE3XuXCVQvnuGrXy5TXrES17VwXXGYzec"
 
     version = sys.version_info
     if version.major != 3 or version.minor != 10:
