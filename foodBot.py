@@ -1,3 +1,4 @@
+import re
 import sys
 import signal
 import asyncio
@@ -53,12 +54,19 @@ def merge_results(all_results: ResultSet) -> list[PageElement]:
     return flat_list
 
 
-def get_week_line(all_lines: list[str]) -> str:
-    for line in all_lines:
-        if 'vecka' in line:
-            return line
+def get_soup() -> BeautifulSoup:
+    response = requests.get(ADELFORS_MATSEDEL_URL)
+    soup = BeautifulSoup(markup=response.content, features='html.parser')
+    return soup
 
-    raise ValueError
+
+def get_week_line(soup: BeautifulSoup) -> str:
+    week_line = soup.find(string=re.compile('(?i)matsedel vecka'))
+    if week_line is None:
+        raise ValueError
+
+    text = week_line.text
+    return text
 
 
 def get_week_number(week_line: str) -> int:
@@ -73,13 +81,12 @@ def get_week_number(week_line: str) -> int:
     return week_number
 
 
-def get_lunch_menu_raw() -> list[str]:
-    response = requests.get(ADELFORS_MATSEDEL_URL)
-    soup = BeautifulSoup(markup=response.content, features='html.parser')
-    lunch_menu_all_results = soup.find_all(id="Header3")
-    lunch_menu_html = merge_results(lunch_menu_all_results)
-    lunch_menu_text = [item.text for item in lunch_menu_html]
+def get_lunch_menu_raw(soup: BeautifulSoup) -> list[str]:
+    lunch_menu_monday_elem = soup.find(string="Måndag:").parent
+    lunch_menu_whole_elem = lunch_menu_monday_elem.parent
+    lunch_menu_text = [item.text for item in lunch_menu_whole_elem]
     lunch_menu = [item for item in lunch_menu_text if item != ""]
+    print(lunch_menu)
     return lunch_menu
 
 
@@ -97,8 +104,11 @@ def format_week_menu(week_menu: list[str]) -> list[str]:
 
 
 def get_weekly_lunches() -> str:
-    lunch_menu = get_lunch_menu_raw()
-    week_line = get_week_line(lunch_menu)
+    soup = get_soup()
+
+    lunch_menu = get_lunch_menu_raw(soup)
+
+    week_line = get_week_line(soup)
     week_num = get_week_number(week_line)
 
     week_menu = format_week_menu(lunch_menu)
