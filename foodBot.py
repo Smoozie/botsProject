@@ -82,10 +82,14 @@ def get_week_number(week_line: str) -> int:
 
 
 def get_lunch_menu_raw(soup: BeautifulSoup) -> list[str]:
-    lunch_menu_monday_elem = soup.find(string="Måndag:").parent
+    lunch_menu_monday_elem = soup.find(string="Måndag:")
+    if lunch_menu_monday_elem is None:
+        lunch_menu_monday_elem = soup.find(string="Måndag")
+    lunch_menu_monday_elem = lunch_menu_monday_elem.parent
     lunch_menu_whole_elem = lunch_menu_monday_elem.parent
     lunch_menu_text = [item.text for item in lunch_menu_whole_elem]
     lunch_menu = [item for item in lunch_menu_text if item != ""]
+    lunch_menu = [item for item in lunch_menu if item != ":"]
     print(lunch_menu)
     return lunch_menu
 
