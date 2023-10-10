@@ -2,7 +2,6 @@ import re
 import sys
 import signal
 import asyncio
-
 import requests
 # noinspection PyPackageRequirements
 import discord
@@ -11,7 +10,10 @@ from discord.ext import commands
 from datetime import date
 from bs4 import BeautifulSoup, ResultSet, Tag, PageElement
 
-TOKEN = "MTA2MjgyNjY1OTE1OTQ3ODMzMw.GMmr6E.jnG0gOE3XuXCVQvnuGrXy5TXrES17VwXXGYzec"
+# grabs the apikey
+    #TestKey (private)
+TOKEN = "MTE1ODY5Mzg2ODE4Nzk1MTE1NQ.Gwi1Pg.RPXX2ZwNaVPeda0V0uBg-wsj63DN6SDE_iz5AY"
+
 CURRENT_YEAR = date.today().year
 ADELFORS_MATSEDEL_URL = "https://adelfors.nu/folkhoegskolan/veckans-matsedel/"
 
@@ -61,7 +63,7 @@ def get_soup() -> BeautifulSoup:
 
 
 def get_week_line(soup: BeautifulSoup) -> str:
-    week_line = soup.find(string=re.compile('(?i)matsedel vecka'))
+    week_line = soup.find(string=re.compile('(?i)Vecka '))
     if week_line is None:
         raise ValueError
 
@@ -82,12 +84,25 @@ def get_week_number(week_line: str) -> int:
 
 
 def get_lunch_menu_raw(soup: BeautifulSoup) -> list[str]:
-    lunch_menu_monday_elem = soup.find(string="Måndag:")
-    if lunch_menu_monday_elem is None:
-        lunch_menu_monday_elem = soup.find(string="Måndag")
-    lunch_menu_monday_elem = lunch_menu_monday_elem.parent
-    lunch_menu_whole_elem = lunch_menu_monday_elem.parent
-    lunch_menu_text = [item.text for item in lunch_menu_whole_elem]
+    lunch_menu_text = []
+    days = ["Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag"]
+    for day in days:
+        #looks for the day
+        lunch_menu_day_elem = soup.find(string=day+":")
+        if lunch_menu_day_elem is None:
+            lunch_menu_day_elem = soup.find(string=day)
+        #goes up 2 elements
+        lunch_menu_day_elem = lunch_menu_day_elem.parent
+        lunch_menu_whole_elem = lunch_menu_day_elem.parent
+        #checks if the composite element is null and makes it the element if so
+        #else it appends
+        lunch_menu_text_day = [item.text for item in lunch_menu_whole_elem]
+        if lunch_menu_text is None:
+            lunch_menu_text = lunch_menu_text_day
+        else:
+            for item in lunch_menu_text_day:
+                lunch_menu_text.append(item)
+
     lunch_menu = [item for item in lunch_menu_text if item != ""]
     lunch_menu = [item for item in lunch_menu if item != ":"]
     print(lunch_menu)

@@ -3,6 +3,12 @@ import json
 import signal
 import sys
 
+DISCORD_TOKEN = "MTE1OTA0MDEyMzkwMDU0NzA5Mw.GCyeIR.LjbZrqUBoFfIJVIQAPRchpDlBDFTY627MY6q1E"
+
+#channel id for where to post
+CHANNEL_ID = 1159047960697516052
+
+
 import requests
 # noinspection PyPackageRequirements
 import discord
@@ -75,7 +81,7 @@ def get_ads():
 
 if __name__ == '__main__':
 
-    TOKEN = "MTA2NjMxMjA4NzE2NjUyNTQ4MQ.GA8xRn.aC29C0-mmuAwdp11EDDKf3KHwtqSy5yqVW4mRU"
+    TOKEN = DISCORD_TOKEN
 
     version = sys.version_info
     if version.major != 3 or version.minor != 10:
@@ -99,7 +105,7 @@ if __name__ == '__main__':
 
     @tasks.loop(hours=24)
     async def scheduled_loop():
-        af_channel_id = 1065372918344843274
+        af_channel_id = CHANNEL_ID
         af_channel = bot.get_channel(af_channel_id)
 
         all_ads = get_ads()
